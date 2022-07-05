@@ -1,8 +1,10 @@
 ////////////Global Variables////////////
 const boardSection = document.getElementById('board-grid')
+const square = document.getElementsByClassName('sq')
 const tileArr = []
 const caterpiePosition = []
 let size =  prompt(`'what is the  board size?`)
+let berryPosition;
 
 // Init Game
 
@@ -12,7 +14,6 @@ class Caterpie {
   constructor(){
 this.id = snake
   }
-
 }
 
 class Head extends Caterpie{
@@ -21,6 +22,7 @@ class Head extends Caterpie{
     this.position =  caterpiePosition.push(Math.ceil(Math.pow(size,2))/2)
   }
   eat(){
+  
   //when eventListener triggers, (head goes into position where berry is), then the body will replicate and append to the head.
   }
 }
@@ -45,6 +47,20 @@ class Tail extends Caterpie {
   //tail needs to follow the last body part
 }
 
+// berry class object
+class Berry {
+  constructor(){
+    this.berryPosition = berryPosition
+  }
+  createBerry(berryPosition){
+    const berry = document.createElement(`img-div`)
+    berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
+    document.getElementById(`sq${berryPosition}`).appendChild(berry)
+
+
+  }
+}
+
 
 ////////////functions////////////
 
@@ -65,6 +81,15 @@ const createCaterpie = () => {
   const head = new Head()
 }
 
+// randomized berry
+const randomBerry = () => {
+  berryPosition = Math.round(Math.random()*Math.pow(size,2))
+    const newBerry = new Berry()
+    newBerry.createBerry(berryPosition)
+  }
+
+
 createBoard(parseInt(size))
+randomBerry()
 
 ////////////event listeners////////////
