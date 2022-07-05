@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+}
+
+body {
+  background-color: #eebb2f;
+  text-align: center;
+}
+
+#board-grid {
+  position: relative;
+  display: grid;
+  border: 2px solid black;
+  padding: 200px;
+  justify-content: center;
+  /* grid-template-columns: repeat(2, minmax(25px, 25px));
+  grid-template-rows: repeat(2, minmax(25px, 25px)); */
+}
+
+.sq {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border: 5px solid black;
+  font-size: 300px;
+  padding: 10px;
+}
