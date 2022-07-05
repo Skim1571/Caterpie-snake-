@@ -30,3 +30,15 @@ body {
   font-size: 300px;
   padding: 10px;
 }
+
+.head {
+  background-color: green;
+}
+
+.body {
+  background-color: aquamarine;
+}
+
+.tail {
+  background-color: yellow;
+}
