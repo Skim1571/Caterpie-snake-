@@ -1,7 +1,10 @@
 ////////////Global Variables////////////
 const boardSection = document.getElementById('board-grid')
 const square = document.getElementsByClassName('sq')
-const tileArr = []
+const directionInput = document.getElementById('input')
+let head = null;
+let segment = null;
+let tail = null;
 const caterpiePosition = [0]
 let size =  prompt(`'what is the  board size?`)
 let berryPosition;
@@ -11,20 +14,15 @@ let berryPosition;
 
 // Caterpie Classes
 class Caterpie {
-  constructor(){
-this.id = 'snake'
+  constructor(positionId){
+this.positionId = positionId
 this.isHead = false;
   }
-  follow(){
-    if(!this.isHead)
-    
-    //needs to follow the part that's 1 position ahead
-      }
 }
 
 class Head extends Caterpie{
-  constructor(){
-    super()
+  constructor(positionId){
+    super(positionId)
     this.isHead = true;
   }
   makeHead(){
@@ -39,11 +37,22 @@ class Head extends Caterpie{
   }
   //when eventListener triggers, (head goes into position where berry is), then the body will replicate and append to the head.
   }
-}
+  movement(input){
+      if(input === 'ArrowUp'){
+        caterpiePosition.unshift(parseint(caterpiePosition[0]+size,10))
+        caterpiePosition.pop();
+      } else if(input === 'ArrowDown'){caterpiePosition.unshift(parseint(caterpiePosition[0]-size,10))
+        caterpiePosition.pop();
+      } else if(input === 'ArrowLeft'){caterpiePosition.unshift(parseint(caterpiePosition[0]-1,10));
+        caterpiePosition.pop();
+      } else if(input === 'ArrowRight'){caterpiePosition.unshift(parseint(caterpiePosition[0]+1,10));
+        caterpiePosition.pop()
+      }  
+}}
 
 class Segment extends Caterpie {
-  constructor(){
-    super()
+  constructor(positionId){
+    super(positionId)
     
   }
   makeSegment(){
@@ -55,8 +64,9 @@ class Segment extends Caterpie {
 }
 
 class Tail extends Caterpie {
-  constructor(){
-    super()
+  constructor(positionId){
+    super(positionId)
+    
     }
     makeTail(){
     const segment = document.createElement('div')
@@ -98,29 +108,62 @@ const createBoard = (size) => {
   boardSection.style.gridTemplateRows = `repeat(${size}, minmax(25px, 25px))`;
   }
 
+// randomized berry
+const createBerry = (random) => {
+  const newBerry = new Berry()
+  newBerry.createBerry(berryPosition)
+}
+
+const random = () => {
+  berryPosition = Math.round(Math.random()*Math.pow(size,2))
+}
+
 //function to create caterpie
 const createCaterpie = () => {
-  const head = new Head()
-  const segment = new Segment()
-  const tail = new Tail()
+   head = new Head()
+   segment = new Segment()
+   tail = new Tail()
   head.makeHead()
   segment.makeSegment()
   tail.makeTail()
-  
 }
 
-// randomized berry
-const createBerry = (random) => {
-    const newBerry = new Berry()
-    newBerry.createBerry(berryPosition)
-  }
+// function to render
 
-  const random = () => {
-    berryPosition = Math.round(Math.random()*Math.pow(size,2))
-  }
 
+
+
+
+
+////////////event listeners////////////
+//movement input listener
+directionInput.addEventListener('keydown', (keyEvent) => {
+  console.log(caterpiePosition)
+  console.log(keyEvent)
+  if(keyEvent.code === 'ArrowUp'){
+    caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))))
+    caterpiePosition.pop();
+  } else if(keyEvent.code === 'ArrowDown'){caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)))
+    caterpiePosition.pop();
+  } else if(keyEvent.code === 'ArrowLeft'){caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
+    caterpiePosition.pop();
+  } else if(keyEvent.code === 'ArrowRight'){caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
+    caterpiePosition.pop()
+  }  
+  console.log(caterpiePosition)
+});
+
+
+// square.forEach(sq => {
+//   if(`sq${caterpiePosition} === sq${berryPosition}`){
+//     head.eat()
+// }});
+
+////////////start game////////////
 createBoard(parseInt(size))
 createCaterpie()
 createBerry(random())
 
-////////////event listeners////////////
+
+////////////Credit & Source////////////
+// Keyboard eventListener Source: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
