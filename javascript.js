@@ -2,7 +2,7 @@
 const boardSection = document.getElementById('board-grid')
 const square = document.getElementsByClassName('sq')
 const tileArr = []
-const caterpiePosition = []
+const caterpiePosition = [0]
 let size =  prompt(`'what is the  board size?`)
 let berryPosition;
 
@@ -12,38 +12,58 @@ let berryPosition;
 // Caterpie Classes
 class Caterpie {
   constructor(){
-this.id = snake
+this.id = 'snake'
+this.isHead = false;
   }
+  follow(){
+    if(!this.isHead)
+    
+    //needs to follow the part that's 1 position ahead
+      }
 }
 
 class Head extends Caterpie{
   constructor(){
     super()
-    this.position =  caterpiePosition.push(Math.ceil(Math.pow(size,2))/2)
+    this.isHead = true;
+  }
+  makeHead(){
+    const head = document.createElement('div')
+    head.innerHTML = 'H'
+    document.getElementById(`sq${caterpiePosition}`).appendChild(head)
   }
   eat(){
-  
+  if(`sq${caterpiePosition} === sq${berryPosition}`){
+    removeBerry()
+    makeSegment()
+  }
   //when eventListener triggers, (head goes into position where berry is), then the body will replicate and append to the head.
   }
 }
 
-class Body extends Caterpie {
+class Segment extends Caterpie {
   constructor(){
     super()
+    
   }
-  createBody(){
-//create a new body part.
-
-  }
-  follow(){
-//needs to follow the part that's 1 position ahead
+  makeSegment(){
+    const segment = document.createElement('div')
+    segment.innerHTML = 'S'
+    caterpiePosition.splice(1,0,1)
+    document.getElementById(`sq${caterpiePosition[1]}`).appendChild(segment)
   }
 }
 
 class Tail extends Caterpie {
   constructor(){
     super()
-  }
+    }
+    makeTail(){
+    const segment = document.createElement('div')
+    segment.innerHTML = 'T'
+    caterpiePosition.splice(2,0,2)
+    document.getElementById(`sq${caterpiePosition[2]}`).appendChild(segment)
+    }
   //tail needs to follow the last body part
 }
 
@@ -54,10 +74,12 @@ class Berry {
   }
   createBerry(berryPosition){
     const berry = document.createElement(`img-div`)
+    berry.setAttribute('class','berry')
     berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
     document.getElementById(`sq${berryPosition}`).appendChild(berry)
-
-
+  }
+  removeBerry(){
+    berry.remove()
   }
 }
 
@@ -79,17 +101,26 @@ const createBoard = (size) => {
 //function to create caterpie
 const createCaterpie = () => {
   const head = new Head()
+  const segment = new Segment()
+  const tail = new Tail()
+  head.makeHead()
+  segment.makeSegment()
+  tail.makeTail()
+  
 }
 
 // randomized berry
-const randomBerry = () => {
-  berryPosition = Math.round(Math.random()*Math.pow(size,2))
+const createBerry = (random) => {
     const newBerry = new Berry()
     newBerry.createBerry(berryPosition)
   }
 
+  const random = () => {
+    berryPosition = Math.round(Math.random()*Math.pow(size,2))
+  }
 
 createBoard(parseInt(size))
-randomBerry()
+createCaterpie()
+createBerry(random())
 
 ////////////event listeners////////////
