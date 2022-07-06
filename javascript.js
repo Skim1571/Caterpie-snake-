@@ -1,11 +1,12 @@
 ////////////Global Variables////////////
 const boardSection = document.getElementById('board-grid')
-const square = document.getElementsByClassName('sq')
 const directionInput = document.getElementById('input')
+let sNum = null;
+let square = document.querySelectorAll('.sq')
 let head = null;
 let segment = null;
 let tail = null;
-const caterpiePosition = [0]
+const caterpiePosition = [0];
 let size =  prompt(`'what is the  board size?`)
 let berryPosition;
 
@@ -26,29 +27,29 @@ class Head extends Caterpie{
     this.isHead = true;
   }
   makeHead(){
-    const head = document.createElement('div')
+    head = document.createElement('div')
     head.innerHTML = 'H'
-    document.getElementById(`sq${caterpiePosition}`).appendChild(head)
   }
   eat(){
-  if(`sq${caterpiePosition} === sq${berryPosition}`){
+  if(`s${caterpiePosition} === s${berryPosition}`){
     removeBerry()
     makeSegment()
   }
   //when eventListener triggers, (head goes into position where berry is), then the body will replicate and append to the head.
   }
-  movement(input){
-      if(input === 'ArrowUp'){
-        caterpiePosition.unshift(parseint(caterpiePosition[0]+size,10))
-        caterpiePosition.pop();
-      } else if(input === 'ArrowDown'){caterpiePosition.unshift(parseint(caterpiePosition[0]-size,10))
-        caterpiePosition.pop();
-      } else if(input === 'ArrowLeft'){caterpiePosition.unshift(parseint(caterpiePosition[0]-1,10));
-        caterpiePosition.pop();
-      } else if(input === 'ArrowRight'){caterpiePosition.unshift(parseint(caterpiePosition[0]+1,10));
-        caterpiePosition.pop()
-      }  
-}}
+  // movement(input){
+  //     if(input === 'ArrowUp'){
+  //       caterpiePosition.unshift(parseint(caterpiePosition[0]+size,10))
+  //       caterpiePosition.pop();
+  //     } else if(input === 'ArrowDown'){caterpiePosition.unshift(parseint(caterpiePosition[0]-size,10))
+  //       caterpiePosition.pop();
+  //     } else if(input === 'ArrowLeft'){caterpiePosition.unshift(parseint(caterpiePosition[0]-1,10));
+  //       caterpiePosition.pop();
+  //     } else if(input === 'ArrowRight'){caterpiePosition.unshift(parseint(caterpiePosition[0]+1,10));
+  //       caterpiePosition.pop()
+  //     }  
+// }
+}
 
 class Segment extends Caterpie {
   constructor(positionId){
@@ -56,10 +57,10 @@ class Segment extends Caterpie {
     
   }
   makeSegment(){
-    const segment = document.createElement('div')
+    segment = document.createElement('div')
     segment.innerHTML = 'S'
     caterpiePosition.splice(1,0,1)
-    document.getElementById(`sq${caterpiePosition[1]}`).appendChild(segment)
+    
   }
 }
 
@@ -69,10 +70,10 @@ class Tail extends Caterpie {
     
     }
     makeTail(){
-    const segment = document.createElement('div')
-    segment.innerHTML = 'T'
+    tail = document.createElement('div')
+    tail.innerHTML = 'T'
     caterpiePosition.splice(2,0,2)
-    document.getElementById(`sq${caterpiePosition[2]}`).appendChild(segment)
+    
     }
   //tail needs to follow the last body part
 }
@@ -86,7 +87,7 @@ class Berry {
     const berry = document.createElement(`img-div`)
     berry.setAttribute('class','berry')
     berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
-    document.getElementById(`sq${berryPosition}`).appendChild(berry)
+    document.getElementById(`s${berryPosition}`).appendChild(berry)
   }
   removeBerry(){
     berry.remove()
@@ -101,7 +102,7 @@ const createBoard = (size) => {
   for (let i = 0; i < Math.pow(size,2); i++){
     let div = document.createElement(`div`)
     div.setAttribute('class','sq')
-    div.setAttribute('id',`sq${i}`)
+    div.setAttribute('id',`s${i}`)
     boardSection.appendChild(div)
   }
   boardSection.style.gridTemplateColumns = `repeat(${size}, minmax(25px, 25px))`;
@@ -111,25 +112,52 @@ const createBoard = (size) => {
 // randomized berry
 const createBerry = (random) => {
   const newBerry = new Berry()
-  newBerry.createBerry(berryPosition)
+  newBerry.createBerry(random)
 }
 
 const random = () => {
-  berryPosition = Math.round(Math.random()*Math.pow(size,2))
+  randomPosition = Math.round(Math.random()*Math.pow(size,2))
 }
 
 //function to create caterpie
 const createCaterpie = () => {
-   head = new Head()
-   segment = new Segment()
-   tail = new Tail()
+  head = new Head()
+  segment = new Segment()
+  tail = new Tail()
   head.makeHead()
   segment.makeSegment()
   tail.makeTail()
 }
 
-// function to render
-
+// function to render caterpie
+// const render = () => {
+//   console.log(square)
+//   square.forEach((sq)=>{
+//     sq.innerHTML = ''
+//     if( caterpiePosition[0] === sq.id){
+//       sq.appendChild(head)
+//       console.log(caterpiePosition[0])
+//     } else if(sq.id !== caterpiePosition.length){
+//       document.getElementById(`${caterpiePosition}`).appendChild(segment)
+//     } else if(sq.id === caterpiePosition.length){
+//       document.getElementById(`${caterpiePosition}`).appendChild(tail)
+//     } else{
+//     }
+//     }
+//     )
+  // }
+const render = () => {
+  caterpiePosition.forEach((cP, i) => {
+    if(i === 0){
+      document.getElementById(`s${cP}`).appendChild(head)
+    } else if(i !== caterpiePosition.length-1){
+      document.getElementById(`s${cP}`).appendChild(segment)
+    } else {
+      document.getElementById(`s${cP}`).appendChild(tail)
+    }
+    }
+    )
+  }
 
 
 
@@ -151,18 +179,16 @@ directionInput.addEventListener('keydown', (keyEvent) => {
     caterpiePosition.pop()
   }  
   console.log(caterpiePosition)
+  render()
 });
 
 
-// square.forEach(sq => {
-//   if(`sq${caterpiePosition} === sq${berryPosition}`){
-//     head.eat()
-// }});
 
 ////////////start game////////////
 createBoard(parseInt(size))
 createCaterpie()
-createBerry(random())
+render()
+// createBerry(random())
 
 
 ////////////Credit & Source////////////
