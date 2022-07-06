@@ -6,9 +6,13 @@ let square = document.querySelectorAll('.sq')
 let head = null;
 let segment = null;
 let tail = null;
+let headDiv = null;
+let segmentDiv = null;
+let tailDiv = null;
+let newBerry = null;
 const caterpiePosition = [0];
 let size =  prompt(`'what is the  board size?`)
-let berryPosition;
+let berryPosition = [];
 
 // Init Game
 
@@ -27,28 +31,16 @@ class Head extends Caterpie{
     this.isHead = true;
   }
   makeHead(){
-    head = document.createElement('div')
-    head.innerHTML = 'H'
+    headDiv = document.createElement('div')
+    headDiv.innerHTML = 'H'
   }
   eat(){
-  if(`s${caterpiePosition} === s${berryPosition}`){
-    removeBerry()
-    makeSegment()
+  if(`${parseInt(caterpiePosition[0])} === ${parseInt(berryPosition[0])}`){
+    console.log(caterpiePosition[0])
+    console.log(berryPosition[0])
+    newBerry.removeBerry(caterpiePosition[0])
   }
-  //when eventListener triggers, (head goes into position where berry is), then the body will replicate and append to the head.
   }
-  // movement(input){
-  //     if(input === 'ArrowUp'){
-  //       caterpiePosition.unshift(parseint(caterpiePosition[0]+size,10))
-  //       caterpiePosition.pop();
-  //     } else if(input === 'ArrowDown'){caterpiePosition.unshift(parseint(caterpiePosition[0]-size,10))
-  //       caterpiePosition.pop();
-  //     } else if(input === 'ArrowLeft'){caterpiePosition.unshift(parseint(caterpiePosition[0]-1,10));
-  //       caterpiePosition.pop();
-  //     } else if(input === 'ArrowRight'){caterpiePosition.unshift(parseint(caterpiePosition[0]+1,10));
-  //       caterpiePosition.pop()
-  //     }  
-// }
 }
 
 class Segment extends Caterpie {
@@ -57,9 +49,9 @@ class Segment extends Caterpie {
     
   }
   makeSegment(){
-    segment = document.createElement('div')
-    segment.innerHTML = 'S'
-    caterpiePosition.splice(1,0,1)
+    segmentDiv = document.createElement('div')
+    segmentDiv.innerHTML = 'S'
+    caterpiePosition.splice(1,0,caterpiePosition[0]+1)
     
   }
 }
@@ -70,9 +62,9 @@ class Tail extends Caterpie {
     
     }
     makeTail(){
-    tail = document.createElement('div')
-    tail.innerHTML = 'T'
-    caterpiePosition.splice(2,0,2)
+    tailDiv = document.createElement('div')
+    tailDiv.innerHTML = 'T'
+    caterpiePosition.splice(2,0,caterpiePosition[0]+2)
     
     }
   //tail needs to follow the last body part
@@ -83,14 +75,17 @@ class Berry {
   constructor(){
     this.berryPosition = berryPosition
   }
-  createBerry(berryPosition){
+  createBerry(num){
     const berry = document.createElement(`img-div`)
     berry.setAttribute('class','berry')
     berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
-    document.getElementById(`s${berryPosition}`).appendChild(berry)
-  }
-  removeBerry(){
-    berry.remove()
+    document.getElementById(`s${num}`).appendChild(berry)
+    berryPosition.push(num)
+}
+  removeBerry(num){
+    document.getElementById(`s${num}`).removeChild[0]
+    // newBerry.remove()
+    berryPosition.pop()
   }
 }
 
@@ -109,14 +104,22 @@ const createBoard = (size) => {
   boardSection.style.gridTemplateRows = `repeat(${size}, minmax(25px, 25px))`;
   }
 
-// randomized berry
-const createBerry = (random) => {
-  const newBerry = new Berry()
-  newBerry.createBerry(random)
+// create berry object
+const createBerries = () => {
+  newBerry = new Berry()
 }
 
-const random = () => {
-  randomPosition = Math.round(Math.random()*Math.pow(size,2))
+//randomize and create berry
+const ranBerry = () => {
+  let num = randomNum()
+  if(document.getElementById(`s${num}`).innerHTML === ""){
+  newBerry.createBerry(num)} else { 
+    ranBerry();
+  }
+}
+
+const randomNum = () => {
+  return Math.round(Math.random()*Math.pow(size,2))
 }
 
 //function to create caterpie
@@ -129,67 +132,46 @@ const createCaterpie = () => {
   tail.makeTail()
 }
 
-// function to render caterpie
-// const render = () => {
-//   console.log(square)
-//   square.forEach((sq)=>{
-//     sq.innerHTML = ''
-//     if( caterpiePosition[0] === sq.id){
-//       sq.appendChild(head)
-//       console.log(caterpiePosition[0])
-//     } else if(sq.id !== caterpiePosition.length){
-//       document.getElementById(`${caterpiePosition}`).appendChild(segment)
-//     } else if(sq.id === caterpiePosition.length){
-//       document.getElementById(`${caterpiePosition}`).appendChild(tail)
-//     } else{
-//     }
-//     }
-//     )
-  // }
 const render = () => {
   caterpiePosition.forEach((cP, i) => {
     if(i === 0){
-      document.getElementById(`s${cP}`).appendChild(head)
+      document.getElementById(`s${cP}`).appendChild(headDiv)
     } else if(i !== caterpiePosition.length-1){
-      document.getElementById(`s${cP}`).appendChild(segment)
+      document.getElementById(`s${cP}`).appendChild(segmentDiv)
     } else {
-      document.getElementById(`s${cP}`).appendChild(tail)
+      document.getElementById(`s${cP}`).appendChild(tailDiv)
     }
     }
     )
   }
 
-
-
-
-
-////////////event listeners////////////
-//movement input listener
-directionInput.addEventListener('keydown', (keyEvent) => {
-  console.log(caterpiePosition)
-  console.log(keyEvent)
-  if(keyEvent.code === 'ArrowUp'){
-    caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))))
-    caterpiePosition.pop();
-  } else if(keyEvent.code === 'ArrowDown'){caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)))
-    caterpiePosition.pop();
-  } else if(keyEvent.code === 'ArrowLeft'){caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
-    caterpiePosition.pop();
-  } else if(keyEvent.code === 'ArrowRight'){caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
-    caterpiePosition.pop()
-  }  
-  console.log(caterpiePosition)
-  render()
-});
-
-
-
 ////////////start game////////////
 createBoard(parseInt(size))
 createCaterpie()
+console.log(`this is after create caterpie`, head)
 render()
-// createBerry(random())
-
+createBerries()
+ranBerry()
+head.eat()
+////////////event listeners////////////
+//movement input listener
+directionInput.addEventListener('keydown', (keyEvent) => {
+  if(keyEvent.code === 'ArrowUp'){
+    caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
+    caterpiePosition.pop();
+    head.eat();
+  } else if(keyEvent.code === 'ArrowDown'){caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
+    caterpiePosition.pop();
+    head.eat();
+  } else if(keyEvent.code === 'ArrowLeft'){caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
+    caterpiePosition.pop();
+    head.eat();
+  } else if(keyEvent.code === 'ArrowRight'){caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
+    caterpiePosition.pop();
+    head.eat();
+  }  
+  render()
+});
 
 ////////////Credit & Source////////////
 // Keyboard eventListener Source: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
