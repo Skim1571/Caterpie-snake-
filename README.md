@@ -1,10 +1,10 @@
-# Caterpie -snake game-
+# Caterpie Ranch Game -snake game-
 
 ## Date: 7/2/2022
 
 ### By: Steve Kim
 
-#### [Website](https://SteveJKim.com) | [GitHub](https://github.com/Skim1571) | [LinkedIn](https://www.linkedin.com/in/steve-kim-b641541b/) | [Trello](https://trello.com/b/8GjBXbBF/caterpie-snake)
+#### [Caterpie Ranch Game](http://skim1571.surge.sh/game.html) | [GitHub](https://github.com/Skim1571) | [LinkedIn](https://www.linkedin.com/in/steve-kim-b641541b/) | [Trello](https://trello.com/b/8GjBXbBF/caterpie-snake)
 
 ---
 
