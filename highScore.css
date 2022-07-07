@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(178, 131, 223);
+  text-align: center;
+}
+
+ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+ul li {
+  color: black;
+}
+
+.grid {
+  border: 2px solid black;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+}
+
+.box {
+  grid-column: 1 / -1;
+}

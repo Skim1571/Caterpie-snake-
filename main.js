@@ -1,18 +1,19 @@
 ////////////Global Variables////////////
+// play button
+const btn = document.getElementById('btn')
 // board information
 const boardSection = document.getElementById('board-grid')
-const boardMap = []
-let size =  prompt(`'what is the  board size?`)
+let boardMap = []
 let square = document.querySelectorAll('.sq')
 // snake information
-const caterpiePosition = [];
+let caterpiePosition = [];
 let head = null;
 let segment = null;
 let tail = null;
 let headDiv = null;
 let segmentDiv = null;
 // berry information
-const berryPosition = [];
+let berryPosition = [];
 let berry = null;
 let newBerry = null;
 // movement information
@@ -21,6 +22,8 @@ let lastKeyDown = null;
 let autoTime = null;
 // score information
 let playerName = null;
+let score = 0;
+let highscore = 0;
 
 // Caterpie Classes
 class Caterpie {
@@ -43,6 +46,8 @@ class Head extends Caterpie{
   eat(){
   if(caterpiePosition[0] === berryPosition[0]){
     newBerry.removeBerry(caterpiePosition[0])
+    score++
+    scoreUpdater()
     // can't make the segment grow because it would either push the head forward or the tail backwards which could lead to it hitting a wall / body part. Only thing that would work is for the last place of where the tail was to be repopulated with the tail.
     segment.makeSegment()
     ranBerry()
@@ -169,10 +174,22 @@ const render = () => {
 const collision = () => {
   const collisionTest = caterpiePosition.lastIndexOf(caterpiePosition[0])
   if( boardMap.includes(caterpiePosition[0])  &&  collisionTest === 0){
-  } else {alert(`you lose`)}
+  } else {
+    let prompt = confirm(`You Lose!\r\nPlay Again?`)
+    if(prompt) {
+      scoreUpdater()
+      resetGame()
+}
+  }
   for(let i =1; i <= size; i++){
     if((caterpiePosition[0] === (parseInt(size)*i) && caterpiePosition[1] === ((parseInt(size)*i)-1)) || (caterpiePosition[1] === (parseInt(size)*i) && caterpiePosition[0] === ((parseInt(size)*i)-1)))
-  {alert(`you lose`)}
+  {
+    let prompt = confirm(`You Lose!\r\nPlay Again?`)
+    if(prompt) {
+      scoreUpdater()
+      resetGame()
+    }
+}
 }}
 
 //directional input converted to movement
@@ -224,12 +241,48 @@ const winCondition = () => {
   }) = caterpiePosition.forEach(cP => {
     sum += (parseInt(cP.charAt(1))+parseInt(cP.charAt(2))+parseInt(cP.charAt(3)))
   })){
-    alert(`You win`)
+    let prompt = confirm(`You win! Play Again?`)
+    if(prompt) {
+      scoreUpdater()
+      resetGame()
+    }
   }
 }
 
-////////////Init Game ////////////
+//score
+const scoreUpdater = () => {
+  document.getElementById('score').innerHTML = score
+  if(score > highscore){
+    highscore = score
+  }
+  document.getElementById('highScore').innerHTML = highscore
+}
 
+////////////Init Game ////////////
+const resetGame = () => {
+// board information
+boardSection.innerHTML = '';
+boardMap = []
+size =  prompt(`'what is the  board size?`)
+square = null;
+// snake information
+caterpiePosition = [];
+head = null;
+segment = null;
+tail = null;
+headDiv = null;
+segmentDiv = null;
+// berry information
+berryPosition = [];
+berry = null;
+newBerry = null;
+// movement information
+lastKeyDown = null;
+autoTime = null;
+// score information
+playerName = null;
+score = 0;
+scoreUpdater()
 
 ////////////start game////////////
 createBoard(parseInt(size))
@@ -238,6 +291,10 @@ createCaterpie()
 createBerries()
 ranBerry()
 render()
+}
+
+
+
 ////////////event listeners////////////
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
@@ -250,6 +307,10 @@ directionInput.addEventListener('keydown', (keyEvent) => {
     autoMove()
   }
 });
+
+// Play game button listner
+btn.addEventListener('click', resetGame)
+
 
 ////////////Credit & Source////////////
 // Keyboard eventListener Source: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
