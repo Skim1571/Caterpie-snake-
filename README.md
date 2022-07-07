@@ -24,7 +24,7 @@
 
 ### **_Getting Started_**
 
-##### You will start in the launch page where you will be asked if you wish to play the game. Once you click the button to start, you will load into another page where you play the game.
+##### You will start in the launch page where you will can click on the Play Game button. You will be asked what size board you wish to play. Once you enter a numeric value, the board will populate. You can then click on the white text box which will take your keyboard arrow inputs to control your caterpie.
 
 ##### I used a Trello board to outline key milestones in creating the game development.
 
@@ -44,13 +44,14 @@
 
 ### **_Future Updates_**
 
-- [ ] Create board
-- [ ] Create movement logic
-- [ ] Create growth logic
-- [ ] Create berry logic
-- [ ] Create lose condition
-- [ ] Create win condition
-- [ ] Future updates
+- [ ] Create levels using the flexible board sizes
+- [ ] Create the metapod look when enough berries are eaten
+- [ ] Create completed game splash screen where you will see a completely evolved butterfree
+- [ ] Create multiple berry spawn logic
+- [ ] Create speed up logic for the harder levels
+
+### **Known Bug**
+- [ ] Timing issue where berry populates where the snake is immediately trying to enter which causing the berry appendChild sequence to error.
 
 ---
 
@@ -58,9 +59,13 @@
 
 ##### Image 1: [Bulbagarden.net](https://archives.bulbagarden.net)
 
-##### Image 2: [Static](https://static.wikia.nocookie.net)
+##### Berry Sprite: [Static](https://static.wikia.nocookie.net)
 
-##### HighScore Background: [Wixmp](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/df084be2-fe18-4c10-928f-f485eabc4114/d2l1n8v-e0704ea5-3532-4232-89a0-98d432f4ad05.png/v1/fill/w_900,h_701,q_75,strp/butterfree_family_picture_by_pokemon_lanino.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9kZjA4NGJlMi1mZTE4LTRjMTAtOTI4Zi1mNDg1ZWFiYzQxMTQvZDJsMW44di1lMDcwNGVhNS0zNTMyLTQyMzItODlhMC05OGQ0MzJmNGFkMDUucG5nIiwid2lkdGgiOiI8PTkwMCIsImhlaWdodCI6Ijw9NzAxIn1dXX0.gD4HURdgN-4Byx7F1ELn41aUHre3leQ8TXxz-DM2JRM)
+##### Pokemon ranch sign: [Sign](http://static2.wikia.nocookie.net/__cb20110219045705/pokemon/images/d/d2/My_Pok%C3%A9mon_Ranch.png)
+
+##### Keyboard eventListener [Source](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
+
+
 ---
 
 Footer

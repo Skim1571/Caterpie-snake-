@@ -293,8 +293,6 @@ ranBerry()
 render()
 }
 
-
-
 ////////////event listeners////////////
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
@@ -310,7 +308,3 @@ directionInput.addEventListener('keydown', (keyEvent) => {
 
 // Play game button listner
 btn.addEventListener('click', resetGame)
-
-
-////////////Credit & Source////////////
-// Keyboard eventListener Source: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key

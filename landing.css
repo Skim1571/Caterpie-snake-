@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+
+
+}
+
+body {
+  background-color: rgb(35, 197, 230);
+  text-align: center;
+  background-image: url('https://wallpapercave.com/wp/wp3228057.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+ul li {
+  color: black;
+}
+
+.entrance {
+  height: auto;
+  width: 200px;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain
+}
