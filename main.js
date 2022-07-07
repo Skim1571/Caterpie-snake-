@@ -107,7 +107,7 @@ const ranBerry = () => {
     newBerry.createBerry(num)
   }
 }
-
+//random Number per boardsize
 const randomNum = () => {
   return Math.round(Math.random()* Math.pow(size,2))
 }
@@ -129,7 +129,7 @@ const render = () => {
   square.forEach(sq => {
     sq.innerHTML = ''
   })
-  collison()
+  collision()
   //restart needs to be in here
   caterpiePosition.forEach((cP, i) => {
     if(i === 0){
@@ -159,12 +159,15 @@ const render = () => {
     })
   }
 
-// collison check function
-const collison = () => {
-  const collisonTest = caterpiePosition.lastIndexOf(caterpiePosition[0])
-  if( boardMap.includes(caterpiePosition[0])  &&  collisonTest === 0){
+// collision check function
+const collision = () => {
+  const collisionTest = caterpiePosition.lastIndexOf(caterpiePosition[0])
+  if( boardMap.includes(caterpiePosition[0])  &&  collisionTest === 0){
   } else {alert(`you lose`)}
-}
+  for(let i =1; i <= size; i++){
+    if(caterpiePosition[0] === (parseInt(size)*i) && caterpiePosition[1] === ((parseInt(size)*i)-1))
+  {alert(`you lose`)}
+}}
 
 ////////////Init Game ////////////
 
