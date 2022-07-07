@@ -115,9 +115,8 @@ const createBerries = () => {
 //randomize and create berry
 const ranBerry = () => {
   let num = randomNum()
-  console.log(`cP`, caterpiePosition)
   console.log(`num`, num)
-  isPositionTaken = false; 
+  let  isPositionTaken = false; 
   caterpiePosition.forEach((cP) => {
     if(cP === num){
       isPositionTaken = true;
@@ -133,7 +132,9 @@ const ranBerry = () => {
 }
 
 const randomNum = () => {
-  return Math.round(Math.pow(Math.random(0, size),2))
+  
+  return Math.round(Math.random()* Math.pow(size,2))
+  
 }
 
 // create caterpie
@@ -189,25 +190,17 @@ render()
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
   if(keyEvent.code === 'ArrowUp'){
-    console.log(`up`,caterpiePosition)
     caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
     caterpiePosition.pop();
-    console.log(`up2`,caterpiePosition)
   } else if(keyEvent.code === 'ArrowDown'){
-    console.log(`down`,caterpiePosition)
     caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
     caterpiePosition.pop();
-    console.log(`down2`,caterpiePosition)
   } else if(keyEvent.code === 'ArrowLeft'){
-    console.log(`left`,caterpiePosition)
     caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
     caterpiePosition.pop();
-    console.log(`left2`,caterpiePosition)
   } else if(keyEvent.code === 'ArrowRight'){
-    console.log(`right`,caterpiePosition)
     caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
     caterpiePosition.pop();
-    console.log(`right2`,caterpiePosition)
   }  
   head.eat();
   render()
