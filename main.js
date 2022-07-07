@@ -205,7 +205,6 @@ const autoMove = () => {
 }
 
 
-
 ////////////Init Game ////////////
 
 
@@ -219,12 +218,14 @@ render()
 ////////////event listeners////////////
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
-directionalInput(keyEvent.code)
-  lastKeyDown = keyEvent.code
-  head.eat();
-  render()
-  clearTimeout(autoTime)
-  autoMove()
+  if(keyEvent.code !== lastKeyDown){
+    directionalInput(keyEvent.code)
+    lastKeyDown = keyEvent.code
+    head.eat();
+    render()
+    clearTimeout(autoTime)
+    autoMove()
+  }
 });
 
 ////////////Credit & Source////////////
