@@ -12,7 +12,7 @@ let berry = null;
 let newBerry = null;
 const caterpiePosition = [];
 let size =  prompt(`'what is the  board size?`)
-let berryPosition = [];
+const berryPosition = [];
 
 // Init Game
 
@@ -55,7 +55,6 @@ class Segment extends Caterpie {
   }
   initSegment(){
     caterpiePosition.splice(caterpiePosition[caterpiePosition.length-1],0,caterpiePosition[caterpiePosition.length-1]-1)
-    console.log(`initial segment`, caterpiePosition)
   }
   makeSegment(){
     caterpiePosition.push(caterpiePosition[caterpiePosition.length-1])
@@ -81,12 +80,11 @@ class Segment extends Caterpie {
 // berry class object
 class Berry {
   constructor(){
-    this.berryPosition = berryPosition
   }
   createBerry(num){
     berryPosition.push(num)
 }
-  removeBerry(num){
+  removeBerry(){
     this.berryObj = document.getElementById(`berry`)
     this.berryObj.remove()
     // newBerry.remove()
@@ -117,17 +115,28 @@ const createBerries = () => {
 //randomize and create berry
 const ranBerry = () => {
   let num = randomNum()
-  if(document.getElementById(`s${num}`).innerHTML === ""){
-  newBerry.createBerry(num)} else { 
-    ranBerry();
+  console.log(`cP`, caterpiePosition)
+  console.log(`num`, num)
+  isPositionTaken = false; 
+  caterpiePosition.forEach((cP) => {
+    if(cP === num){
+      isPositionTaken = true;
+      } else { 
+        berryPosition.pop()
+    }
+  })
+  console.log(`berryposition`, berryPosition)
+  if(isPositionTaken){
+    ranBerry()}else{
+    newBerry.createBerry(num)
   }
 }
 
 const randomNum = () => {
-  return Math.round(Math.random()*Math.pow(size,2))
+  return Math.round(Math.pow(Math.random(0, size),2))
 }
 
-//function to create caterpie
+// create caterpie
 const createCaterpie = () => {
   head = new Head()
   segment = new Segment()
@@ -138,24 +147,16 @@ const createCaterpie = () => {
   // tail.makeTail()
 }
 
+//render Caterpie & berry
 const render = () => {
   square = document.querySelectorAll('.sq')
-  console.log(square)
   square.forEach(sq => {
     sq.innerHTML = ''
-  })
-  console.log(square)
-  berryPosition.forEach((bP,i)=>{
-    berry = document.createElement(`img-div`)
-    berry.setAttribute('id','berry')
-    berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
-    document.getElementById(`s${bP}`).appendChild(berry)
   })
   caterpiePosition.forEach((cP, i) => {
     if(i === 0){
       document.getElementById(`s${cP}`).appendChild(headDiv)
     } else if(i !== 0) {
-      console.log(`times rendered`)
       segmentDiv = document.createElement('div')
       segmentDiv.setAttribute('class','seg')
       segmentDiv.setAttribute('id', `seg${caterpiePosition.length-1}`)
@@ -163,21 +164,20 @@ const render = () => {
       document.getElementById(`s${cP}`).appendChild(segmentDiv)
       } else{}
     })
-      // document.getElementById(`s${cP}`).appendChild(segmentDiv)
+    berryPosition.forEach((bP,i)=>{
+      berry = document.createElement(`img-div`)
+      berry.setAttribute('id','berry')
+      berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
+      document.getElementById(`s${bP}`).appendChild(berry)
+    })
     }
   
-  //original render
-// const render = () => {
-//   caterpiePosition.forEach((cP, i) => {
-//     if(i === 0){
-//       document.getElementById(`s${cP}`).appendChild(headDiv)
-//     } else if(i !== caterpiePosition.length-1){
-//       document.getElementById(`s${cP}`).appendChild(segmentDiv)
-//     } 
-//     else {
-//       document.getElementById(`s${cP}`).appendChild(tailDiv)
-//     }})
-//   }
+// collison check function
+const collison = () => {
+  if(caterpiePosition[0] < 0 || (caterpiePosition[0] === size+1 && caterpiePosition[1] === size) || (caterpiePosition[0] === size && caterpiePosition[1]+1 === size) ){
+    alert(`you lose`)
+  }
+}
 
 ////////////start game////////////
 createBoard(parseInt(size))
@@ -211,6 +211,7 @@ directionInput.addEventListener('keydown', (keyEvent) => {
   }  
   head.eat();
   render()
+  collison()
 });
 
 ////////////Credit & Source////////////
