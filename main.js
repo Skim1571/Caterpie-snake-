@@ -14,6 +14,8 @@ let newBerry = null;
 const caterpiePosition = [];
 let size =  prompt(`'what is the  board size?`)
 const berryPosition = [];
+let lastKeyDown = null;
+let autoTime = null;
 
 // Caterpie Classes
 class Caterpie {
@@ -165,9 +167,44 @@ const collision = () => {
   if( boardMap.includes(caterpiePosition[0])  &&  collisionTest === 0){
   } else {alert(`you lose`)}
   for(let i =1; i <= size; i++){
-    if(caterpiePosition[0] === (parseInt(size)*i) && caterpiePosition[1] === ((parseInt(size)*i)-1))
+    if((caterpiePosition[0] === (parseInt(size)*i) && caterpiePosition[1] === ((parseInt(size)*i)-1)) || (caterpiePosition[1] === (parseInt(size)*i) && caterpiePosition[0] === ((parseInt(size)*i)-1)))
   {alert(`you lose`)}
 }}
+
+//directional input converted to movement
+const directionalInput = (keyEvent) =>{ 
+  if(keyEvent === 'ArrowUp'){
+  caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
+  caterpiePosition.pop();
+} else if(keyEvent === 'ArrowDown'){
+  caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
+  caterpiePosition.pop();
+} else if(keyEvent === 'ArrowLeft'){
+  caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
+  caterpiePosition.pop();
+} else if(keyEvent === 'ArrowRight'){
+  caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
+  caterpiePosition.pop();
+}  
+}
+
+// takes last recorded key input and mimics another key press 
+const keyPress = (lastKeyDown) => {
+  directionalInput(lastKeyDown)
+  head.eat();
+  render()
+  clearTimeout(autoTime)
+  autoMove()
+}
+
+// automated movement
+const autoMove = () => {
+  autoTime = setTimeout(function(){
+    keyPress(lastKeyDown)
+  }, 1000)
+}
+
+
 
 ////////////Init Game ////////////
 
@@ -182,22 +219,12 @@ render()
 ////////////event listeners////////////
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
-  if(keyEvent.code === 'ArrowUp'){
-    console.log(caterpiePosition)
-    caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
-    caterpiePosition.pop();
-  } else if(keyEvent.code === 'ArrowDown'){
-    caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
-    caterpiePosition.pop();
-  } else if(keyEvent.code === 'ArrowLeft'){
-    caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
-    caterpiePosition.pop();
-  } else if(keyEvent.code === 'ArrowRight'){
-    caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
-    caterpiePosition.pop();
-  }  
+directionalInput(keyEvent.code)
+  lastKeyDown = keyEvent.code
   head.eat();
   render()
+  clearTimeout(autoTime)
+  autoMove()
 });
 
 ////////////Credit & Source////////////
