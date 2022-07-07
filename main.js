@@ -1,21 +1,26 @@
 ////////////Global Variables////////////
+// board information
 const boardSection = document.getElementById('board-grid')
-const directionInput = document.getElementById('input')
 const boardMap = []
-let sNum = null;
+let size =  prompt(`'what is the  board size?`)
 let square = document.querySelectorAll('.sq')
+// snake information
+const caterpiePosition = [];
 let head = null;
 let segment = null;
 let tail = null;
 let headDiv = null;
 let segmentDiv = null;
+// berry information
+const berryPosition = [];
 let berry = null;
 let newBerry = null;
-const caterpiePosition = [];
-let size =  prompt(`'what is the  board size?`)
-const berryPosition = [];
+// movement information
+const directionInput = document.getElementById('input')
 let lastKeyDown = null;
 let autoTime = null;
+// score information
+let playerName = null;
 
 // Caterpie Classes
 class Caterpie {
@@ -24,7 +29,6 @@ this.positionId = positionId
 this.isHead = false;
   }
 }
-
 class Head extends Caterpie{
   constructor(positionId){
     super(positionId)
@@ -32,7 +36,8 @@ class Head extends Caterpie{
   }
   makeHead(){
     headDiv = document.createElement('div')
-    headDiv.innerHTML = 'H'
+    headDiv.setAttribute('class','cHead')
+    headDiv.innerHTML = 'V'
     caterpiePosition.push(3)
   }
   eat(){
@@ -72,7 +77,6 @@ class Berry {
     berryPosition.pop()
   }
 }
-
 
 ////////////functions////////////
 
@@ -138,16 +142,16 @@ const render = () => {
       document.getElementById(`s${cP}`).appendChild(headDiv)
     } else if(i !== 0) {
       segmentDiv = document.createElement('div')
-      segmentDiv.setAttribute('class','seg')
-      segmentDiv.setAttribute('id', `seg${caterpiePosition.length-1}`)
-      segmentDiv.innerHTML = 'S'
+      segmentDiv.setAttribute('class','cSeg')
+      segmentDiv.setAttribute('id', `cSeg${caterpiePosition.length-1}`)
+      segmentDiv.innerHTML = 'H'
       document.getElementById(`s${cP}`).appendChild(segmentDiv)
       } else{}
     })
-    berryPosition.forEach((bP,i)=>{
+    berryPosition.forEach((bP)=>{
       berry = document.createElement(`img-div`)
       berry.setAttribute('id','berry')
-      berry.innerHTML = `<img src=<https://static.wikia.nocookie.net/pokemon/images/c/c9/Dream_Starf_Berry_Sprite.png/revision/latest?cb=20210118073109>`
+      berry.innerHTML = `<img src='https://archives.bulbagarden.net/media/upload/a/a9/Bag_Starf_Berry_Sprite.png'>`
       document.getElementById(`s${bP}`).appendChild(berry)
     })
     }
@@ -176,15 +180,23 @@ const directionalInput = (keyEvent) =>{
   if(keyEvent === 'ArrowUp'){
   caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
   caterpiePosition.pop();
+  headDiv.style.transform = 'rotate(180deg)'
+  segmentDiv.style.transform = 'rotate(90deg)'
 } else if(keyEvent === 'ArrowDown'){
   caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
   caterpiePosition.pop();
+  headDiv.style.transform = 'rotate(0deg)'
+  segmentDiv.style.transform = 'rotate(90deg)'
 } else if(keyEvent === 'ArrowLeft'){
   caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
   caterpiePosition.pop();
+  headDiv.style.transform = 'rotate(90deg)'
+  segmentDiv.style.transform = 'rotate(180deg)'
 } else if(keyEvent === 'ArrowRight'){
   caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
   caterpiePosition.pop();
+  headDiv.style.transform = 'rotate(-90deg)'
+  segmentDiv.style.transform = 'rotate(180deg)'
 }  
 }
 
@@ -198,12 +210,23 @@ const keyPress = (lastKeyDown) => {
 }
 
 // automated movement
-const autoMove = () => {
-  autoTime = setTimeout(function(){
+const autoMove = async () => {
+  autoTime = await setTimeout(function(){
     keyPress(lastKeyDown)
-  }, 1000)
+  }, 500)
 }
 
+// win condition
+const winCondition = () => {
+  let sum;
+  if(boardMap.forEach(bM => {
+    sum += (parseInt(bM.charAt(1))+parseInt(bM.charAt(2))+parseInt(bM.charAt(3)))
+  }) = caterpiePosition.forEach(cP => {
+    sum += (parseInt(cP.charAt(1))+parseInt(cP.charAt(2))+parseInt(cP.charAt(3)))
+  })){
+    alert(`You win`)
+  }
+}
 
 ////////////Init Game ////////////
 
