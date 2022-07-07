@@ -130,6 +130,7 @@ const render = () => {
     sq.innerHTML = ''
   })
   collison()
+  //restart needs to be in here
   caterpiePosition.forEach((cP, i) => {
     if(i === 0){
       document.getElementById(`s${cP}`).appendChild(headDiv)
@@ -160,8 +161,8 @@ const render = () => {
 
 // collison check function
 const collison = () => {
-  console.log(caterpiePosition)
-  if( boardMap.includes(caterpiePosition[0])){console.log(boardMap.includes(caterpiePosition[0]))
+  const collisonTest = caterpiePosition.lastIndexOf(caterpiePosition[0])
+  if( boardMap.includes(caterpiePosition[0])  &&  collisonTest === 0){
   } else {alert(`you lose`)}
 }
 
@@ -175,8 +176,6 @@ createCaterpie()
 createBerries()
 ranBerry()
 render()
-console.log(`this is head position`, caterpiePosition)
-console.log(`this is boardmap`, boardMap)
 ////////////event listeners////////////
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
@@ -196,7 +195,6 @@ directionInput.addEventListener('keydown', (keyEvent) => {
   }  
   head.eat();
   render()
-  collison()
 });
 
 ////////////Credit & Source////////////
