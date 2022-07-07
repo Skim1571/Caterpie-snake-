@@ -36,12 +36,12 @@ class Head extends Caterpie{
     caterpiePosition.push(3)
   }
   eat(){
-    console.log(`before`, caterpiePosition[0])
-    console.log(`before`, berryPosition[0])
   if(caterpiePosition[0] === berryPosition[0]){
     newBerry.removeBerry(caterpiePosition[0])
     // can't make the segment grow because it would either push the head forward or the tail backwards which could lead to it hitting a wall / body part. Only thing that would work is for the last place of where the tail was to be repopulated with the tail.
-    segment.makeSegment
+    console.log(`eat method`, caterpiePosition)
+    segment.makeSegment()
+    console.log(`eat method2`, caterpiePosition)
     ranBerry()
   }
   }
@@ -52,13 +52,20 @@ class Segment extends Caterpie {
     super(positionId)
     
   }
-  makeSegment(){
+  initSegment(){
     segmentDiv = document.createElement('div')
     segmentDiv.innerHTML = 'S'
-    console.log(caterpiePosition)
-    caterpiePosition.splice(caterpiePosition.length,0,caterpiePosition[caterpiePosition.length])
-    console.log(caterpiePosition)
-    
+    console.log(`initial segment`, caterpiePosition)
+    caterpiePosition.splice(1,0,parseInt(caterpiePosition[0]-1,10))
+    // think about using segment only >> caterpiePosition.splice(2,0,parseInt(caterpiePosition[0],10))
+    console.log(`initial segment`, caterpiePosition)
+  }
+  makeSegment(){
+    console.log(`make segment`, caterpiePosition)
+    segmentDiv = document.createElement('div')
+    segmentDiv.innerHTML = 'S'
+    caterpiePosition.splice(1,0,caterpiePosition[0])
+    console.log(`make segment2`, caterpiePosition)
   }
 }
 
@@ -70,9 +77,10 @@ class Tail extends Caterpie {
     makeTail(){
     tailDiv = document.createElement('div')
     tailDiv.innerHTML = 'T'
-    caterpiePosition.splice(caterpiePosition.length,0,caterpiePosition[caterpiePosition.length-1])
-    
-    }
+    console.log(`initial tail`, caterpiePosition)
+    caterpiePosition.splice(caterpiePosition.length,0,parseInt(caterpiePosition[caterpiePosition.length-1]-1,10))
+    console.log(`make tail2`, caterpiePosition)
+  }
   //tail needs to follow the last body part
 }
 
@@ -89,7 +97,6 @@ class Berry {
     berryPosition.push(num)
 }
   removeBerry(num){
-    console.log(document.getElementById(`s${num}`).children[0])
     this.berryObj = document.getElementById(`berry`)
     this.berryObj.remove()
     // newBerry.remove()
@@ -122,7 +129,6 @@ const ranBerry = () => {
   let num = randomNum()
   if(document.getElementById(`s${num}`).innerHTML === ""){
   newBerry.createBerry(num)} else { 
-    console.log(document.getElementById(`s${num}`).innerHTML)
     ranBerry();
   }
 }
@@ -137,7 +143,7 @@ const createCaterpie = () => {
   segment = new Segment()
   tail = new Tail()
   head.makeHead()
-  segment.makeSegment()
+  segment.initSegment()
   tail.makeTail()
 }
 
@@ -149,9 +155,7 @@ const render = () => {
       document.getElementById(`s${cP}`).appendChild(segmentDiv)
     } else {
       document.getElementById(`s${cP}`).appendChild(tailDiv)
-    }
-    }
-    )
+    }})
   }
 
 ////////////start game////////////
@@ -166,17 +170,14 @@ directionInput.addEventListener('keydown', (keyEvent) => {
   if(keyEvent.code === 'ArrowUp'){
     caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
     caterpiePosition.pop();
-    head.eat();
   } else if(keyEvent.code === 'ArrowDown'){caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
     caterpiePosition.pop();
-    head.eat();
   } else if(keyEvent.code === 'ArrowLeft'){caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
     caterpiePosition.pop();
-    head.eat();
   } else if(keyEvent.code === 'ArrowRight'){caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
     caterpiePosition.pop();
-    head.eat();
   }  
+  head.eat();
   render()
 });
 
