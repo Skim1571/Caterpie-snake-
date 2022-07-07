@@ -198,22 +198,18 @@ const directionalInput = (keyEvent) =>{
   caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
   caterpiePosition.pop();
   headDiv.style.transform = 'rotate(180deg)'
-  segmentDiv.style.transform = 'rotate(90deg)'
 } else if(keyEvent === 'ArrowDown'){
   caterpiePosition.unshift(parseInt(caterpiePosition[0]+parseInt(size)));
   caterpiePosition.pop();
   headDiv.style.transform = 'rotate(0deg)'
-  segmentDiv.style.transform = 'rotate(90deg)'
 } else if(keyEvent === 'ArrowLeft'){
   caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
   caterpiePosition.pop();
   headDiv.style.transform = 'rotate(90deg)'
-  segmentDiv.style.transform = 'rotate(180deg)'
 } else if(keyEvent === 'ArrowRight'){
   caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
   caterpiePosition.pop();
   headDiv.style.transform = 'rotate(-90deg)'
-  segmentDiv.style.transform = 'rotate(180deg)'
 }  
 }
 
