@@ -1,6 +1,7 @@
 ////////////Global Variables////////////
 const boardSection = document.getElementById('board-grid')
 const directionInput = document.getElementById('input')
+const boardMap = []
 let sNum = null;
 let square = document.querySelectorAll('.sq')
 let head = null;
@@ -13,9 +14,6 @@ let newBerry = null;
 const caterpiePosition = [];
 let size =  prompt(`'what is the  board size?`)
 const berryPosition = [];
-
-// Init Game
-
 
 // Caterpie Classes
 class Caterpie {
@@ -37,12 +35,9 @@ class Head extends Caterpie{
   }
   eat(){
   if(caterpiePosition[0] === berryPosition[0]){
-    console.log(`eat active`)
     newBerry.removeBerry(caterpiePosition[0])
     // can't make the segment grow because it would either push the head forward or the tail backwards which could lead to it hitting a wall / body part. Only thing that would work is for the last place of where the tail was to be repopulated with the tail.
-    console.log(`eat method`, caterpiePosition)
     segment.makeSegment()
-    console.log(`eat method2`, caterpiePosition)
     ranBerry()
   }
   }
@@ -58,24 +53,8 @@ class Segment extends Caterpie {
   }
   makeSegment(){
     caterpiePosition.push(caterpiePosition[caterpiePosition.length-1])
-    console.log(`make segment2`, caterpiePosition)
   }
 }
-
-// class Tail extends Caterpie {
-//   constructor(positionId){
-//     super(positionId)
-    
-//     }
-//     makeTail(){
-//     tailDiv = document.createElement('div')
-//     tailDiv.innerHTML = 'T'
-//     console.log(`initial tail`, caterpiePosition)
-//     caterpiePosition.splice(caterpiePosition.length,0,parseInt(caterpiePosition[caterpiePosition.length-1]-1,10))
-//     console.log(`make tail2`, caterpiePosition)
-//   }
-//   //tail needs to follow the last body part
-// }
 
 // berry class object
 class Berry {
@@ -115,7 +94,6 @@ const createBerries = () => {
 //randomize and create berry
 const ranBerry = () => {
   let num = randomNum()
-  console.log(`num`, num)
   let  isPositionTaken = false; 
   caterpiePosition.forEach((cP) => {
     if(cP === num){
@@ -124,7 +102,6 @@ const ranBerry = () => {
         berryPosition.pop()
     }
   })
-  console.log(`berryposition`, berryPosition)
   if(isPositionTaken){
     ranBerry()}else{
     newBerry.createBerry(num)
@@ -132,9 +109,7 @@ const ranBerry = () => {
 }
 
 const randomNum = () => {
-  
   return Math.round(Math.random()* Math.pow(size,2))
-  
 }
 
 // create caterpie
@@ -154,6 +129,7 @@ const render = () => {
   square.forEach(sq => {
     sq.innerHTML = ''
   })
+  collison()
   caterpiePosition.forEach((cP, i) => {
     if(i === 0){
       document.getElementById(`s${cP}`).appendChild(headDiv)
@@ -173,23 +149,39 @@ const render = () => {
     })
     }
   
+  // get boardMap
+  const mapBoard = () => {
+    square = document.querySelectorAll('.sq')
+    square.forEach(sq => {
+      boardMap.push(parseInt(sq.id.charAt(1)+sq.id.charAt(2)+sq.id.charAt(3)))
+      
+    })
+  }
+
 // collison check function
 const collison = () => {
-  if(caterpiePosition[0] < 0 || (caterpiePosition[0] === size+1 && caterpiePosition[1] === size) || (caterpiePosition[0] === size && caterpiePosition[1]+1 === size) ){
-    alert(`you lose`)
-  }
+  console.log(caterpiePosition)
+  if( boardMap.includes(caterpiePosition[0])){console.log(boardMap.includes(caterpiePosition[0]))
+  } else {alert(`you lose`)}
 }
+
+////////////Init Game ////////////
+
 
 ////////////start game////////////
 createBoard(parseInt(size))
+mapBoard()
 createCaterpie()
 createBerries()
 ranBerry()
 render()
+console.log(`this is head position`, caterpiePosition)
+console.log(`this is boardmap`, boardMap)
 ////////////event listeners////////////
 //movement input listener
 directionInput.addEventListener('keydown', (keyEvent) => {
   if(keyEvent.code === 'ArrowUp'){
+    console.log(caterpiePosition)
     caterpiePosition.unshift((parseInt(caterpiePosition[0]-parseInt(size))));
     caterpiePosition.pop();
   } else if(keyEvent.code === 'ArrowDown'){
