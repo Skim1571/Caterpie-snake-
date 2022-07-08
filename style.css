@@ -17,8 +17,6 @@ body {
   border: 2px solid black;
   padding: 200px;
   justify-content: center;
-  /* grid-template-columns: repeat(2, minmax(25px, 25px));
-  grid-template-rows: repeat(2, minmax(25px, 25px)); */
 }
 
 .sq {
@@ -31,13 +29,10 @@ body {
 }
 
 .cHead {
-  /* background-color: rgb(48, 180, 52); */
   border-radius: 33%;
   object-fit: cover;
-  /* font-size: 26px; */
   color: rgb(230, 105, 239);
-  transform: rotate(-90deg);
-  /* border: 1px solid black; */
+  transform: scaleX(-1);
 }
 
 .cSeg {
