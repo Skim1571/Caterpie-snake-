@@ -40,7 +40,7 @@ class Head extends Caterpie{
   makeHead(){
     headDiv = document.createElement('div')
     headDiv.setAttribute('class','cHead')
-    headDiv.innerHTML = 'V'
+    headDiv.innerHTML = `<img src='https://i.imgur.com/0HwolN4.png' width='120' height='120'>`
     caterpiePosition.push(3)
   }
   eat(){
@@ -205,11 +205,11 @@ const directionalInput = (keyEvent) =>{
 } else if(keyEvent === 'ArrowLeft'){
   caterpiePosition.unshift(parseInt((caterpiePosition[0]-1)));
   caterpiePosition.pop();
-  headDiv.style.transform = 'rotate(90deg)'
+  headDiv.style.transform = 'rotate(0deg)'
 } else if(keyEvent === 'ArrowRight'){
   caterpiePosition.unshift(parseInt((caterpiePosition[0]+1)));
   caterpiePosition.pop();
-  headDiv.style.transform = 'rotate(-90deg)'
+  headDiv.style.transform = 'scaleX(-1)'
 }  
 }
 
