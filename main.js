@@ -24,6 +24,7 @@ let autoTime = null;
 let playerName = null;
 let score = 0;
 let highscore = 0;
+let level = 1;
 
 // Caterpie Classes
 class Caterpie {
@@ -47,6 +48,9 @@ class Head extends Caterpie{
   if(caterpiePosition[0] === berryPosition[0]){
     newBerry.removeBerry(caterpiePosition[0])
     score++
+    if(score === (size*level)){
+      level++
+    }
     scoreUpdater()
     // can't make the segment grow because it would either push the head forward or the tail backwards which could lead to it hitting a wall / body part. Only thing that would work is for the last place of where the tail was to be repopulated with the tail.
     segment.makeSegment()
@@ -226,7 +230,7 @@ const keyPress = (lastKeyDown) => {
 const autoMove = async () => {
   autoTime = await setTimeout(function(){
     keyPress(lastKeyDown)
-  }, 500)
+  }, 500/level)
 }
 
 // win condition
@@ -252,6 +256,7 @@ const scoreUpdater = () => {
     highscore = score
   }
   document.getElementById('highScore').innerHTML = highscore
+  document.getElementById('level').innerHTML = level
 }
 
 ////////////Init Game ////////////
@@ -278,6 +283,7 @@ autoTime = null;
 // score information
 playerName = null;
 score = 0;
+level = 1;
 scoreUpdater()
 
 ////////////start game////////////
