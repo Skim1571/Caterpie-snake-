@@ -264,7 +264,7 @@ const resetGame = () => {
 // board information
 boardSection.innerHTML = '';
 boardMap = []
-size =  prompt(`what is the board size?\r\nType a number between 5 -10`)
+size =  prompt(`Choose the size of your ranch.\r\nType a number between 5 -10`)
 square = null;
 // snake information
 caterpiePosition = [];
