@@ -145,7 +145,12 @@ const render = () => {
     sq.innerHTML = ''
   })
   collision()
-  //restart needs to be in here
+  berryPosition.forEach((bP)=>{
+    berry = document.createElement(`img-div`)
+    berry.setAttribute('id','berry')
+    berry.innerHTML = `<img src='https://archives.bulbagarden.net/media/upload/a/a9/Bag_Starf_Berry_Sprite.png'>`
+    document.getElementById(`s${bP}`).appendChild(berry)
+  })
   caterpiePosition.forEach((cP, i) => {
     if(i === 0){
       document.getElementById(`s${cP}`).appendChild(headDiv)
@@ -156,12 +161,6 @@ const render = () => {
       segmentDiv.innerHTML = 'H'
       document.getElementById(`s${cP}`).appendChild(segmentDiv)
       } else{}
-    })
-    berryPosition.forEach((bP)=>{
-      berry = document.createElement(`img-div`)
-      berry.setAttribute('id','berry')
-      berry.innerHTML = `<img src='https://archives.bulbagarden.net/media/upload/a/a9/Bag_Starf_Berry_Sprite.png'>`
-      document.getElementById(`s${bP}`).appendChild(berry)
     })
     }
   
